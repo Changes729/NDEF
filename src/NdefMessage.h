@@ -14,7 +14,7 @@ public:
   virtual ~NdefMessage();
   NdefMessage &operator=(const NdefMessage &rhs);
 
-  int getEncodedSize(); // need so we can pass array to encode
+  int getEncodedSize() const; // need so we can pass array to encode
   void encode(byte *data);
 
   boolean addRecord(NdefRecord &record);
@@ -25,13 +25,14 @@ public:
   void addUriRecord(String uri);
   void addEmptyRecord();
 
-  unsigned int getRecordCount();
-  NdefRecord getRecord(int index);
-  NdefRecord operator[](int index);
+  unsigned int getRecordCount() const;
+  const NdefRecord *getRecord(int index) const;
+  const NdefRecord &operator[](int index) const;
 
 #ifdef NDEF_USE_SERIAL
-  void print();
+  void print() const;
 #endif
+
 private:
   NdefRecord _records[MAX_NDEF_RECORDS];
   unsigned int _recordCount;
