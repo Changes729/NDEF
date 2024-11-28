@@ -12,7 +12,7 @@ class NdefMessage
         NdefMessage(void);
         NdefMessage(const byte *data, const int numBytes);
         NdefMessage(const NdefMessage& rhs);
-        ~NdefMessage();
+        virtual ~NdefMessage();
         NdefMessage& operator=(const NdefMessage& rhs);
 
         int getEncodedSize(); // need so we can pass array to encode
