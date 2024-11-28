@@ -98,9 +98,9 @@ NdefMessage &NdefMessage::operator=(const NdefMessage &rhs) {
   return *this;
 }
 
-unsigned int NdefMessage::getRecordCount() { return _recordCount; }
+unsigned int NdefMessage::getRecordCount() const { return _recordCount; }
 
-int NdefMessage::getEncodedSize() {
+int NdefMessage::getEncodedSize() const {
   int size = 0;
   for (unsigned int i = 0; i < _recordCount; i++) {
     size += _records[i].getEncodedSize();
@@ -210,18 +210,20 @@ void NdefMessage::addEmptyRecord() {
   delete (r);
 }
 
-NdefRecord NdefMessage::getRecord(int index) {
+const NdefRecord *NdefMessage::getRecord(int index) const {
   if (index > -1 && index < static_cast<int>(_recordCount)) {
-    return _records[index];
+    return _records + index;
   } else {
-    return NdefRecord(); // would rather return NULL
+    return nullptr;
   }
 }
 
-NdefRecord NdefMessage::operator[](int index) { return getRecord(index); }
+const NdefRecord &NdefMessage::operator[](int index) const {
+  return *getRecord(index);
+}
 
 #ifdef NDEF_USE_SERIAL
-void NdefMessage::print() {
+void NdefMessage::print() const {
   Serial.print(F("\nNDEF Message "));
   Serial.print(_recordCount);
   Serial.print(F(" record"));
